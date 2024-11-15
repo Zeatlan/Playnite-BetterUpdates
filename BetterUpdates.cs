@@ -115,7 +115,6 @@ namespace BetterUpdates
                     searchGame.CompletionStatusId = Guid.Parse("f1e78913-617a-4cb0-8614-5351f0516e84");
 
                     // Remove notification
-                    Notifs.Remove(message.Id);
 
                     successCount++;
                 }
@@ -125,6 +124,7 @@ namespace BetterUpdates
                 }
             }
 
+            Notifs.RemoveAll();
             Dialogs.ShowMessage($"{successCount} games were successfully updated. (Reload Playnite if you don't see any change)");
         }
     }
