@@ -5,6 +5,7 @@ using Playnite.SDK.Plugins;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -114,8 +115,9 @@ namespace BetterUpdates
                     searchGame.Notes = $"Old version was : {oldVersion}.\nOld completion was : {searchGame.CompletionStatus}.";
                     searchGame.CompletionStatusId = Guid.Parse("f1e78913-617a-4cb0-8614-5351f0516e84");
 
-                    // Remove notification
+                    GameDatabase.Update(searchGame);
 
+                    // Remove notification
                     successCount++;
                 }
                 else 
