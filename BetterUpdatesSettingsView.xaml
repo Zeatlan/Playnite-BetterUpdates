@@ -6,8 +6,8 @@
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="600">
     <StackPanel>
-        <TextBlock Text="Tag name :"/>
-        <TextBox Text="{Binding Settings.Option1}"/>
+        <TextBlock Text="Completion name :"/>
+        <TextBox Text="{Binding Settings.tagName}"/>
 
         <Button Name="ButCheckNotif" Content="Check notifications" Click="ButCheckNotif_Click" />
     </StackPanel>
