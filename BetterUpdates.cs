@@ -86,10 +86,10 @@ namespace BetterUpdates
             return new BetterUpdatesSettingsView(this);
         }
 
-        public void CheckNotifications()
+        private void HandleNotifications()
         {
             int successCount = 0;
-            
+
             foreach (var message in Notifs.Messages)
             {
                 // REGEX Patterns
@@ -120,7 +120,7 @@ namespace BetterUpdates
                     // Remove notification
                     successCount++;
                 }
-                else 
+                else
                 {
                     Dialogs.ShowErrorMessage($"There was an error with this game:\n{message.Text}", "Error");
                 }
@@ -128,6 +128,20 @@ namespace BetterUpdates
 
             Notifs.RemoveAll();
             Dialogs.ShowMessage($"{successCount} games were successfully updated. (Reload Playnite if you don't see any change)");
+        }
+
+        public void CheckNotifications()
+        {
+            List<MessageBoxOption> options = new List<MessageBoxOption>();
+            options.Add(new MessageBoxOption("Yes"));
+            options.Add(new MessageBoxOption("No"));
+
+            MessageBoxOption response = Dialogs.ShowMessage("Did you setup the completion tag before?", "Confirm", System.Windows.MessageBoxImage.Question, options);
+
+            if(response.Title == "Yes")
+            {
+                HandleNotifications();
+            }
         }
     }
 }
