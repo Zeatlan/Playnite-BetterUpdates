@@ -94,6 +94,23 @@ namespace BetterUpdates
             return new BetterUpdatesSettingsView(this);
         }
 
+        public Guid? GetCompletionGUID(string gameName)
+        {
+            Game searchGame = GameDatabase.FirstOrDefault(game => game.Name == gameName);
+
+            if(searchGame != null)
+            {
+                if(searchGame.CompletionStatusId != new Guid("00000000-0000-0000-0000-000000000000"))
+                {
+                    Dialogs.ShowMessage($"Game found, the completion status will be set to : {searchGame.CompletionStatus}");
+                    return searchGame.CompletionStatusId;
+                }
+            }
+
+            Dialogs.ShowErrorMessage("The game does not have a complete status. Be sure your game exist and/or have an completion status.", "Error");
+            return null;
+        }
+
         private RegexResult RegexCheck(NotificationMessage message)
         {
             // REGEX Patterns
@@ -111,7 +128,7 @@ namespace BetterUpdates
             };
         }
 
-        private void UpdateGame(RegexResult regex, Guid newCompletionStatus)
+        private void UpdateGame(RegexResult regex)
         {
             // Find game in library
             Game searchGame = GameDatabase.FirstOrDefault(game => game.Name == regex.Name);
@@ -119,7 +136,7 @@ namespace BetterUpdates
             // Edit Game
             searchGame.Version = regex.NewVersion;
             searchGame.Notes = $"Old version was : {regex.OldVersion}.\nOld completion was : {searchGame.CompletionStatus}.";
-            searchGame.CompletionStatusId = newCompletionStatus;
+            searchGame.CompletionStatusId = settings.Settings.CompletionStatusID.Value;
 
             GameDatabase.Update(searchGame);
         }
@@ -134,10 +151,7 @@ namespace BetterUpdates
 
                 if (regex.Success)
                 {
-                    // Updated GUID : f1e78913-617a-4cb0-8614-5351f0516e84
-                    UpdateGame(regex, Guid.Parse("f1e78913-617a-4cb0-8614-5351f0516e84"));
-
-                    // Remove notification
+                    UpdateGame(regex);
                     successCount++;
                 }
                 else

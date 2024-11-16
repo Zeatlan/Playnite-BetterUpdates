@@ -18,7 +18,7 @@
         />
         <TextBlock Text="(You only need to do this once)" Margin="10 5 10 15" FontStyle="Italic"/>
         <TextBlock Text="Completion game name :" Margin="0 0 0 15" FontWeight="Bold"/>
-        <TextBox Text="{Binding Settings.tagName}" />
+        <TextBox Text="{Binding Settings.CompletionName}" />
 
         <Separator  Margin="0 15"/>
 

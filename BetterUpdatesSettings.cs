@@ -10,12 +10,14 @@ namespace BetterUpdates
 {
     public class BetterUpdatesSettings : ObservableObject
     {
-        private string completionName = string.Empty;
-        public string CompletionName { get => completionName; set => SetValue(ref completionName, value); }
+        public string CompletionName { get; set; }
+        public Guid? CompletionStatusID { get; set; }
     }
 
     public class BetterUpdatesSettingsViewModel : ObservableObject, ISettings
     {
+        private string basicGameName;
+
         private readonly BetterUpdates plugin;
         private BetterUpdatesSettings editingClone { get; set; }
 
@@ -53,6 +55,7 @@ namespace BetterUpdates
         {
             // Code executed when settings view is opened and user starts editing values.
             editingClone = Serialization.GetClone(Settings);
+            basicGameName = editingClone.CompletionName;
         }
 
         public void CancelEdit()
@@ -66,7 +69,12 @@ namespace BetterUpdates
         {
             // Code executed when user decides to confirm changes made since BeginEdit was called.
             // This method should save settings made to Option1 and Option2.
+            if (Settings.CompletionName != basicGameName)
+            {
+                Settings.CompletionStatusID = plugin.GetCompletionGUID(Settings.CompletionName);
+            }
             plugin.SavePluginSettings(Settings);
+
         }
 
         public bool VerifySettings(out List<string> errors)
