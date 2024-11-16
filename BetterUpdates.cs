@@ -15,6 +15,14 @@ using System.Windows.Input;
 
 namespace BetterUpdates
 {
+    public class RegexResult
+    {
+        public bool Success { get; set; }
+        public string Name { get; set; }
+        public string OldVersion { get; set; }
+        public string NewVersion { get; set; }
+    }
+
     public class BetterUpdates : GenericPlugin
     {
         private static readonly ILogger logger = LogManager.GetLogger();
@@ -86,36 +94,48 @@ namespace BetterUpdates
             return new BetterUpdatesSettingsView(this);
         }
 
+        private RegexResult RegexCheck(NotificationMessage message)
+        {
+            // REGEX Patterns
+            string patternName = @"Game update available: (.*?), link:";
+            string patternVersion = @"Old Version:\s*([^,]+),\s*New Version:\s*([^)]+)";
+
+            Match matchName = Regex.Match(message.Text, patternName);
+            Match matchVersion = Regex.Match(message.Text, patternVersion);
+
+            return new RegexResult {
+                Success = matchName.Success && matchVersion.Success,
+                Name = matchName.Success ? matchName.Groups[1].Value : null,
+                OldVersion = matchVersion.Success ? matchVersion.Groups[1].Value : null,
+                NewVersion = matchVersion.Success ? matchVersion.Groups[2].Value : null,
+            };
+        }
+
+        private void UpdateGame(RegexResult regex, Guid newCompletionStatus)
+        {
+            // Find game in library
+            Game searchGame = GameDatabase.FirstOrDefault(game => game.Name == regex.Name);
+
+            // Edit Game
+            searchGame.Version = regex.NewVersion;
+            searchGame.Notes = $"Old version was : {regex.OldVersion}.\nOld completion was : {searchGame.CompletionStatus}.";
+            searchGame.CompletionStatusId = newCompletionStatus;
+
+            GameDatabase.Update(searchGame);
+        }
+
         private void HandleNotifications()
         {
             int successCount = 0;
 
             foreach (var message in Notifs.Messages)
             {
-                // REGEX Patterns
-                string patternName = @"Game update available: (.*?), link:";
-                string patternVersion = @"Old Version:\s*([^,]+),\s*New Version:\s*([^)]+)";
+                RegexResult regex = RegexCheck(message);
 
-                Match matchName = Regex.Match(message.Text, patternName);
-                Match matchVersion = Regex.Match(message.Text, patternVersion);
-
-                if (matchName.Success && matchVersion.Success)
+                if (regex.Success)
                 {
-                    // Get notifications infos
-                    string gameName = matchName.Groups[1].Value;
-                    string oldVersion = matchVersion.Groups[1].Value;
-                    string newVersion = matchVersion.Groups[2].Value;
-
-                    // Find game in library
-                    Game searchGame = GameDatabase.FirstOrDefault(game => game.Name == gameName);
-
-                    // Edit Game
                     // Updated GUID : f1e78913-617a-4cb0-8614-5351f0516e84
-                    searchGame.Version = newVersion;
-                    searchGame.Notes = $"Old version was : {oldVersion}.\nOld completion was : {searchGame.CompletionStatus}.";
-                    searchGame.CompletionStatusId = Guid.Parse("f1e78913-617a-4cb0-8614-5351f0516e84");
-
-                    GameDatabase.Update(searchGame);
+                    UpdateGame(regex, Guid.Parse("f1e78913-617a-4cb0-8614-5351f0516e84"));
 
                     // Remove notification
                     successCount++;
