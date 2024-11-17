@@ -12,6 +12,7 @@
 
     <!-- Main script -->
     <sys:String x:Key="LOC_BETTERUPDATES_Error">Error</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_Confirm">Confirm</sys:String>
     <sys:String x:Key="LOC_BETTERUPDATES_Yes">Yes</sys:String>
     <sys:String x:Key="LOC_BETTERUPDATES_No">No</sys:String>
 

@@ -170,7 +170,12 @@ namespace BetterUpdates
             options.Add(new MessageBoxOption(ResourceProvider.GetString("LOC_BETTERUPDATES_Yes")));
             options.Add(new MessageBoxOption(ResourceProvider.GetString("LOC_BETTERUPDATES_No")));
 
-            MessageBoxOption response = Dialogs.ShowMessage(ResourceProvider.GetString("LOC_BETTERUPDATES_ConfirmBoxContent"), "Confirm", System.Windows.MessageBoxImage.Question, options);
+            MessageBoxOption response = Dialogs.ShowMessage(
+                ResourceProvider.GetString("LOC_BETTERUPDATES_ConfirmBoxContent"), 
+                ResourceProvider.GetString("LOC_BETTERUPDATES_Confirm"), 
+                System.Windows.MessageBoxImage.Question, 
+                options
+            );
 
             if(response.Title == ResourceProvider.GetString("LOC_BETTERUPDATES_Yes"))
             {
