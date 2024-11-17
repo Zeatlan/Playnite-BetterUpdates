@@ -2,4 +2,27 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!-- XAML window -->
+    <sys:String x:Key="LOC_BETTERUPDATES_SettingsTitle">!!! IMPORTANT !!!</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_SettingsDescription">Before clicking the next button, write down a game name with the completion tag you want to attribute to the updated games. Save the settings then click the button 'Check notifications'</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_SettingsNote">(You only need to do this once)</sys:String>
+
+    <sys:String x:Key="LOC_BETTERUPDATES_SettingsLabel">Completion game name:</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_SettingsBtn">Check notifications</sys:String>
+
+    <!-- Main script -->
+    <sys:String x:Key="LOC_BETTERUPDATES_Error">Error</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_Yes">Yes</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_No">No</sys:String>
+
+    <sys:String x:Key="LOC_BETTERUPDATES_GetCompletionGUIDSuccess">Game found, the completion status will be set to :</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_GetCompletionGUIDErrorContent">The game does not have a complete status. Be sure your game exist and/or have an completion status.</sys:String>
+
+    <sys:String x:Key="LOC_BETTERUPDATES_UpdateNotesFirst">Old version was:</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_UpdateNotesSecond">Old completion was:</sys:String>
+
+    <sys:String x:Key="LOC_BETTERUPDATES_NotifErrorContent">There was an error with this game:</sys:String>
+    <sys:String x:Key="LOC_BETTERUPDATES_NotifSuccess">games were successfully updated. (Reload Playntie if you don't see any change)</sys:String>
+
+    <sys:String x:Key="LOC_BETTERUPDATES_ConfirmBoxContent">Did you setup the game name to get completion status before?</sys:String>
 </ResourceDictionary>

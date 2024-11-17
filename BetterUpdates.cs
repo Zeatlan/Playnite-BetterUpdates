@@ -102,12 +102,12 @@ namespace BetterUpdates
             {
                 if(searchGame.CompletionStatusId != new Guid("00000000-0000-0000-0000-000000000000"))
                 {
-                    Dialogs.ShowMessage($"Game found, the completion status will be set to : {searchGame.CompletionStatus}");
+                    Dialogs.ShowMessage(ResourceProvider.GetString("LOC_BETTERUPDATES_GetCompletionGUIDSuccess"), searchGame.CompletionStatus.ToString());
                     return searchGame.CompletionStatusId;
                 }
             }
 
-            Dialogs.ShowErrorMessage("The game does not have a complete status. Be sure your game exist and/or have an completion status.", "Error");
+            Dialogs.ShowErrorMessage(ResourceProvider.GetString("LOC_BETTERUPDATES_GetCompletionGUIDErrorContent"), ResourceProvider.GetString("LOC_BETTERUPDATES_Error"));
             return null;
         }
 
@@ -135,7 +135,7 @@ namespace BetterUpdates
 
             // Edit Game
             searchGame.Version = regex.NewVersion;
-            searchGame.Notes = $"Old version was : {regex.OldVersion}.\nOld completion was : {searchGame.CompletionStatus}.";
+            searchGame.Notes = $"{ResourceProvider.GetString("LOC_BETTERUPDATES_UpdateNotesFirst")} {regex.OldVersion}.\n{ResourceProvider.GetString("LOC_BETTERUPDATES_UpdateNotesSecond")} {searchGame.CompletionStatus}.";
             searchGame.CompletionStatusId = settings.Settings.CompletionStatusID.Value;
 
             GameDatabase.Update(searchGame);
@@ -156,23 +156,23 @@ namespace BetterUpdates
                 }
                 else
                 {
-                    Dialogs.ShowErrorMessage($"There was an error with this game:\n{message.Text}", "Error");
+                    Dialogs.ShowErrorMessage($"{ResourceProvider.GetString("LOC_BETTERUPDATES_NotifErrorContent")}\n{message.Text}", ResourceProvider.GetString("LOC_BETTERUPDATES_Error"));
                 }
             }
 
             Notifs.RemoveAll();
-            Dialogs.ShowMessage($"{successCount} games were successfully updated. (Reload Playnite if you don't see any change)");
+            Dialogs.ShowMessage($"{successCount} {ResourceProvider.GetString("LOC_BETTERUPDATES_NotifSuccess")}");
         }
 
         public void CheckNotifications()
         {
             List<MessageBoxOption> options = new List<MessageBoxOption>();
-            options.Add(new MessageBoxOption("Yes"));
-            options.Add(new MessageBoxOption("No"));
+            options.Add(new MessageBoxOption(ResourceProvider.GetString("LOC_BETTERUPDATES_Yes")));
+            options.Add(new MessageBoxOption(ResourceProvider.GetString("LOC_BETTERUPDATES_No")));
 
-            MessageBoxOption response = Dialogs.ShowMessage("Did you setup the completion tag before?", "Confirm", System.Windows.MessageBoxImage.Question, options);
+            MessageBoxOption response = Dialogs.ShowMessage(ResourceProvider.GetString("LOC_BETTERUPDATES_ConfirmBoxContent"), "Confirm", System.Windows.MessageBoxImage.Question, options);
 
-            if(response.Title == "Yes")
+            if(response.Title == ResourceProvider.GetString("LOC_BETTERUPDATES_Yes"))
             {
                 HandleNotifications();
             }

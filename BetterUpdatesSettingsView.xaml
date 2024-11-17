@@ -7,21 +7,21 @@
              d:DesignHeight="400" d:DesignWidth="600">
     <StackPanel>
         <Separator />
-        <TextBlock Text="!!! IMPORTANT !!!" HorizontalAlignment="Center" FontSize="32" Background="DarkRed" FontFamily="Bold" TextDecorations="Underline" Margin="0 5"/>
+        <TextBlock Text="{DynamicResource LOC_BETTERUPDATES_SettingsTitle}" HorizontalAlignment="Center" FontSize="32" Background="DarkRed" FontFamily="Bold" TextDecorations="Underline" Margin="0 5"/>
         <Separator />
 
-        <TextBlock Text="Before clicking the next button, write down a game name with the completion tag you want to attribute to the updated games. Save the settings then click the button 'Check notifications'" 
+        <TextBlock Text="{DynamicResource LOC_BETTERUPDATES_SettingsDescription}" 
                    TextWrapping="Wrap"
                    Margin="10 5 10 0"
                    Padding="5"
                    Background="DarkRed"
         />
-        <TextBlock Text="(You only need to do this once)" Margin="10 5 10 15" FontStyle="Italic"/>
-        <TextBlock Text="Completion game name :" Margin="0 0 0 15" FontWeight="Bold"/>
+        <TextBlock Text="{DynamicResource LOC_BETTERUPDATES_SettingsNote}" Margin="10 5 10 15" FontStyle="Italic"/>
+        <TextBlock Text="{DynamicResource LOC_BETTERUPDATES_SettingsLabel}" Margin="0 0 0 15" FontWeight="Bold"/>
         <TextBox Text="{Binding Settings.CompletionName}" />
 
         <Separator  Margin="0 15"/>
 
-        <Button Name="ButCheckNotif" Content="Check notifications" Click="ButCheckNotif_Click" Margin="0 15 0 0" Width="350"/>
+        <Button Name="ButCheckNotif" Content="{DynamicResource LOC_BETTERUPDATES_SettingsBtn}" Click="ButCheckNotif_Click" Margin="0 15 0 0" Width="350"/>
     </StackPanel>
 </UserControl>
